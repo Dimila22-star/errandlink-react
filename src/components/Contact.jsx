@@ -46,6 +46,7 @@ function Contact() {
         <input
           type="text"
           placeholder="Your name"
+          aria-label="Your name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
@@ -53,12 +54,14 @@ function Contact() {
         <input
           type="email"
           placeholder="Your email"
+          aria-label="Your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
         <textarea
           placeholder="What do you need from the market?"
+          aria-label="What do you need from the market?"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required

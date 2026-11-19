@@ -67,6 +67,7 @@ function Reviews() {
           <input
             type="text"
             placeholder="Your name"
+            aria-label="Your name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -91,6 +92,7 @@ function Reviews() {
 
           <textarea
             placeholder="Tell us about your errand experience..."
+            aria-label="Tell us about your errand experience"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             required
