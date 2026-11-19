@@ -1,11 +1,14 @@
 import { useState } from "react";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+import { useAuth } from "../context/AuthContext";
+import { useErrands } from "../context/ErrandsContext";
 
 function Contact() {
+  const { user } = useAuth();
+  const { addErrand } = useErrands();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [status, setStatus] = useState("");
   const [isSending, setIsSending] = useState(false);
 
@@ -15,22 +18,20 @@ function Contact() {
     setStatus("");
 
     try {
-      const response = await fetch(`${API_URL}/requests`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-          message: message.trim(),
-          createdAt: new Date().toISOString(),
-        }),
+      await addErrand({
+        name: name.trim(),
+        email: email.trim(),
+        message: message.trim(),
+        imageUrl: imageUrl.trim(),
+        status: "pending",
+        createdAt: new Date().toISOString(),
+        ...(user ? { userId: user.id } : {}),
       });
-
-      if (!response.ok) throw new Error("Request failed");
 
       setName("");
       setEmail("");
       setMessage("");
+      setImageUrl("");
       setStatus("Thanks! Your errand request has been received.");
     } catch {
       setStatus("Could not send request. Make sure the server is running.");
@@ -58,6 +59,13 @@ function Contact() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+        />
+        <input
+          type="url"
+          placeholder="Image URL (optional)"
+          aria-label="Image URL (optional)"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
         />
         <textarea
           placeholder="What do you need from the market?"

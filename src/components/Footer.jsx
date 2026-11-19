@@ -28,7 +28,10 @@ function Footer() {
 
      <div className="footer-bottom">
   <p>© {new Date().getFullYear()} ErrandLink. All rights reserved.</p>
-  <a href="#">Back to top ↑</a>
+  <a href="#top" onClick={(event) => {
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }}>Back to top ↑</a>
 </div>
     </footer>
   );

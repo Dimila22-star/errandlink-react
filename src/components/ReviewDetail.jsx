@@ -12,6 +12,8 @@ function ReviewDetail({ reviewId }) {
   const review = reviews.find((item) => `${item.id}` === reviewId);
 
   async function handleDelete() {
+    if (!window.confirm("Delete this review?")) return;
+
     setIsDeleting(true);
     setError("");
 

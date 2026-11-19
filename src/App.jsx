@@ -6,6 +6,8 @@ import Reviews from "./components/Reviews";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import ReviewDetail from "./components/ReviewDetail";
+import Register from "./components/Register";
+import Errands from "./components/Errands";
 import { Link, useRouter } from "./context/RouterContext";
 
 function App() {
@@ -35,6 +37,26 @@ function App() {
         <main>
           <Reviews />
         </main>
+        <Footer />
+      </>
+    );
+  }
+
+  if (pathname === "/register" || pathname === "/login") {
+    return (
+      <>
+        <Navbar />
+        <Register mode={pathname === "/login" ? "login" : "register"} />
+        <Footer />
+      </>
+    );
+  }
+
+  if (pathname === "/errands") {
+    return (
+      <>
+        <Navbar />
+        <Errands />
         <Footer />
       </>
     );

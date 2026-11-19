@@ -110,6 +110,32 @@ nav a:hover {
   color: #1f7a4d;
 }
 
+.nav-button,
+.nav-account {
+  border: 0;
+  background: none;
+  color: #1f7a4d;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.nav-button {
+  padding: 0;
+}
+
+.nav-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #dce6df;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #14331f;
+  font-size: 1.35rem;
+  cursor: pointer;
+}
+
 .hero {
   background-image:
     linear-gradient(
@@ -530,6 +556,157 @@ footer a:hover {
   color: rgba(255, 255, 255, 0.65);
 }
 
+.auth-page {
+  min-height: 60vh;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.auth-card,
+.errands-page section {
+  max-width: 680px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #e3ebe6;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(20, 51, 31, 0.07);
+  text-align: left;
+}
+
+.auth-card {
+  max-width: 480px;
+  padding: 36px;
+}
+
+.auth-card h1,
+.errands-page h1 {
+  color: #14331f;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.auth-intro {
+  margin: 0 auto 24px;
+  max-width: 520px;
+  color: #4f5e55;
+  text-align: center;
+}
+
+.auth-card form label,
+.errand-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #2c3831;
+  font-weight: 600;
+}
+
+.auth-switch {
+  margin-top: 18px;
+  text-align: center;
+  color: #4f5e55;
+}
+
+.auth-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.errands-page section {
+  max-width: 820px;
+  padding: 36px;
+}
+
+.errand-form {
+  max-width: none;
+  margin-bottom: 20px;
+}
+
+.errands-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.errand-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid #e3ebe6;
+  border-radius: 12px;
+}
+
+.errand-card p {
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+}
+
+.errand-owner {
+  margin-top: 10px;
+  color: #14331f;
+  font-size: 1.05rem;
+}
+
+.optional-label {
+  color: #68766e;
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.errand-image {
+  display: block;
+  width: min(100%, 360px);
+  max-height: 240px;
+  margin-top: 12px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.errand-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.status {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.status-pending {
+  background: #fff2c7;
+  color: #745600;
+}
+
+.status-completed {
+  background: #dff1e7;
+  color: #1f6a43;
+}
+
+.button-danger {
+  border: 1px solid #d8aaa6;
+  border-radius: 999px;
+  background: #fff;
+  color: #963c35;
+  padding: 13px 18px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.empty-state {
+  color: #4f5e55;
+  text-align: center;
+  padding: 18px;
+}
+
 @media (max-width: 768px) {
   body,
   .hero,
@@ -540,9 +717,46 @@ footer a:hover {
 
 @media (max-width: 600px) {
   nav {
-    position: static;
+    position: sticky;
+    padding: 10px 6%;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    right: 0;
     flex-direction: column;
-    gap: 10px;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px 6%;
+    background: rgba(255, 255, 255, 0.98);
+    border-bottom: 1px solid #e3ebe6;
+    box-shadow: 0 12px 24px rgba(20, 51, 31, 0.08);
+  }
+
+  .nav-links-open {
+    display: flex;
+  }
+
+  .nav-links li,
+  .nav-links a,
+  .nav-links button {
+    width: 100%;
+  }
+
+  .nav-links a,
+  .nav-links button {
+    display: block;
+    padding: 10px 12px;
+    text-align: left;
   }
   
   section{
@@ -573,6 +787,35 @@ footer a:hover {
 
   .review-detail {
     padding: 24px 18px;
+  }
+
+  .auth-card,
+  .errands-page section {
+    padding: 24px 18px;
+  }
+
+  .errand-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .errand-actions {
+    width: 100%;
+  }
+
+  .errand-actions button {
+    flex: 1;
+  }
+
+  .footer-top,
+  .footer-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
   }
 
  @media (prefers-reduced-motion: reduce) {
