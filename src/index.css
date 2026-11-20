@@ -713,6 +713,63 @@ footer a:hover {
   padding: 18px;
 }
 
+.form-message {
+  text-align: center;
+  margin-top: 14px;
+  font-weight: 500;
+  color: #1f7a4d;
+}
+
+.errand-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-tab {
+  padding: 7px 14px;
+  border: 1px solid #cbd6cf;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #2c3831;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filter-tab.active {
+  background: #1f7a4d;
+  border-color: #1f7a4d;
+  color: #ffffff;
+}
+
+select {
+  padding: 12px 14px;
+  border: 1px solid #cbd6cf;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #ffffff;
+}
+
+.status-guest {
+  margin-left: 8px;
+  background: #eef3f0;
+  color: #4f5e55;
+}
+
+.errand-actions .btn-secondary {
+  margin-top: 0;
+}
+
 @media (max-width: 768px) {
   body,
   .hero,
