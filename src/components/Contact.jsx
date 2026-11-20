@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useErrands } from "../context/ErrandsContext";
+import { useRouter } from "../context/RouterContext";
 
 function Contact() {
   const { user } = useAuth();
   const { addErrand } = useErrands();
+  const { navigate } = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -32,7 +34,7 @@ function Contact() {
       setEmail("");
       setMessage("");
       setImageUrl("");
-      setStatus("Thanks! Your errand request has been received.");
+      navigate("/errands");
     } catch {
       setStatus("Could not send request. Make sure the server is running.");
     } finally {
