@@ -7,6 +7,15 @@
       "message": "Looking for fresh organic tomatoes.",
       "status": "pending",
       "createdAt": "2026-10-22T08:00:00.000Z"
+    },
+    {
+      "name": "Neiller  Wachara",
+      "email": "wacharaneiller@gmail.com",
+      "message": "Tomatoes\nPotatoes",
+      "imageUrl": "",
+      "status": "pending",
+      "createdAt": "2026-11-20T08:00:47.747Z",
+      "id": "LIe-TCU84QU"
     }
   ],
   "users": [],
@@ -32,5 +41,6 @@
       "comment": "Great communication from start to finish and clear receipts for every item bought.",
       "createdAt": "2026-11-10T09:45:00.000Z"
     }
-  ]
+  ],
+  "$schema": ["./node_modules/json-server/schema.json"]
 }

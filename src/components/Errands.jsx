@@ -25,6 +25,8 @@ function Errands() {
   const [status, setStatus] = useState("");
   const [busyId, setBusyId] = useState("");
   const [isAdding, setIsAdding] = useState(false);
+  const [editingId, setEditingId] = useState("");
+  const [editForm, setEditForm] = useState(null);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -64,12 +66,50 @@ function Errands() {
     }
   }
 
+  function startEditing(errand) {
+    setEditingId(errand.id);
+    setEditForm({
+      name: errand.name,
+      email: errand.email,
+      message: errand.message,
+      imageUrl: errand.imageUrl || "",
+    });
+    setStatus("");
+  }
+
+  async function saveErrand(event, id) {
+    event.preventDefault();
+    if (!editForm) return;
+
+    setBusyId(id);
+    setStatus("");
+    try {
+      await updateErrand(id, {
+        name: editForm.name.trim(),
+        email: editForm.email.trim(),
+        message: editForm.message.trim(),
+        imageUrl: editForm.imageUrl.trim(),
+      });
+      setEditingId("");
+      setEditForm(null);
+      setStatus("Your errand request has been updated.");
+    } catch {
+      setStatus("We could not update that request. Please try again.");
+    } finally {
+      setBusyId("");
+    }
+  }
+
   async function removeErrand(id) {
     if (!window.confirm("Remove this errand request?")) return;
 
     setBusyId(id);
     try {
       await deleteErrand(id);
+      if (editingId === id) {
+        setEditingId("");
+        setEditForm(null);
+      }
     } catch {
       setStatus("We could not remove that request.");
     } finally {
@@ -145,41 +185,118 @@ function Errands() {
           )}
           {errands.map((errand) => (
             <article className="errand-card" key={errand.id}>
-              <div>
-                <span className={`status status-${errand.status}`}>
-                  {errand.status === "completed" ? "Completed" : "Pending"}
-                </span>
-                <h2 className="errand-owner">{errand.name}</h2>
-                <p>{errand.message}</p>
-                {getImageUrl(errand.imageUrl || "") && (
-                  <img
-                    className="errand-image"
-                    src={getImageUrl(errand.imageUrl)}
-                    alt={`Image for ${errand.message}`}
-                    loading="lazy"
-                    onError={(event) => {
-                      event.currentTarget.hidden = true;
-                    }}
-                  />
-                )}
-              </div>
+              {editingId === errand.id && editForm ? (
+                <form
+                  className="errand-form errand-edit-form"
+                  onSubmit={(event) => saveErrand(event, errand.id)}
+                >
+                  <label>
+                    Name
+                    <input
+                      value={editForm.name}
+                      onChange={(event) =>
+                        setEditForm({ ...editForm, name: event.target.value })
+                      }
+                      required
+                    />
+                  </label>
+                  <label>
+                    Email
+                    <input
+                      type="email"
+                      value={editForm.email}
+                      onChange={(event) =>
+                        setEditForm({ ...editForm, email: event.target.value })
+                      }
+                      required
+                    />
+                  </label>
+                  <label>
+                    Image URL <span className="optional-label">(optional)</span>
+                    <input
+                      type="url"
+                      value={editForm.imageUrl}
+                      onChange={(event) =>
+                        setEditForm({ ...editForm, imageUrl: event.target.value })
+                      }
+                    />
+                  </label>
+                  <label>
+                    What do you need?
+                    <textarea
+                      value={editForm.message}
+                      onChange={(event) =>
+                        setEditForm({ ...editForm, message: event.target.value })
+                      }
+                      required
+                    />
+                  </label>
+                  <div className="errand-actions">
+                    <button type="submit" className="btn" disabled={busyId === errand.id}>
+                      {busyId === errand.id ? "Saving..." : "Save changes"}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        setEditingId("");
+                        setEditForm(null);
+                      }}
+                      disabled={busyId === errand.id}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div>
+                  <span className={`status status-${errand.status}`}>
+                    {errand.status === "completed" ? "Completed" : "Pending"}
+                  </span>
+                  <h2 className="errand-owner">{errand.name}</h2>
+                  <p>{errand.message}</p>
+                  {getImageUrl(errand.imageUrl || "") && (
+                    <img
+                      className="errand-image"
+                      src={getImageUrl(errand.imageUrl)}
+                      alt={`Image for ${errand.message}`}
+                      loading="lazy"
+                      onError={(event) => {
+                        event.currentTarget.hidden = true;
+                      }}
+                    />
+                  )}
+                </div>
+              )}
               {canManage(errand) && (
                 <div className="errand-actions">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => changeStatus(errand)}
-                    disabled={busyId === errand.id}
-                  >
-                    {errand.status === "completed" ? "Mark pending" : "Mark completed"}
-                  </button>
+                  {editingId !== errand.id && (
+                    <>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => startEditing(errand)}
+                        disabled={busyId === errand.id}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => changeStatus(errand)}
+                        disabled={busyId === errand.id}
+                      >
+                        {errand.status === "completed" ? "Mark pending" : "Mark completed"}
+                      </button>
+                    </>
+                  )}
                   <button
                     type="button"
                     className="button-danger"
                     onClick={() => removeErrand(errand.id)}
                     disabled={busyId === errand.id}
                   >
-                    Remove
+                    Delete
                   </button>
                 </div>
               )}
